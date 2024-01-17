@@ -1,16 +1,27 @@
 def findMaxLength(nums: list[int]) -> int:
-    var = 0
+    # x = x value on plot
+    # y = y value on plot
+    # ans = value of longest sub array
+    # dicto = key: y, value = x
 
-    for x in list(nums):
-        if x == 0:
-            var -= 1
+    ans = 0
+    y = 0
+    dicto = {0: -1}
+
+    for x, b in enumerate(nums):
+        y += (b * 2) - 1
+        if y not in dicto:
+            dicto[y] = x
         else:
-            var += 1
+            ans = max(ans, (x-dicto[y]))
 
-    return len(nums) - abs(var)
+    return ans
 
 
+print(findMaxLength((0, 0, 1)))
 print(findMaxLength((1, 0, 1, 0, 1, 0, 1, 0)))
 print(findMaxLength((1, 1, 1, 1, 1, 1)))
 print(findMaxLength((0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1)))
 print(findMaxLength((0, 1, 0)))
+print(findMaxLength((0, 1, 1, 0, 1, 1, 1, 0)))
+print(findMaxLength((0, 0, 1)))
