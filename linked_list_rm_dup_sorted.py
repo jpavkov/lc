@@ -30,12 +30,18 @@ class ListNode:
 
 def deleteDuplicates(head: Optional[ListNode]) -> Optional[ListNode]:
     # x = head.val
+    if not head:
+        return head
     cur = head
-    while cur and cur.next:
+    while cur.next:
         if cur.val == cur.next.val:
-            # reassign cur.next to cur.next.next
-            cur.next = cur.next.next
-        cur = cur.next
+            if cur.next.next:
+                cur.next = cur.next.next
+            else:
+                cur.next = None
+        else:
+            cur = cur.next
+    return head
 
 
 head = ListNode(val=1)
@@ -46,6 +52,7 @@ for i in range(2, 11):
     else:
         node.next = ListNode(i)
     node = node.next
+node.next = ListNode(9)
 
 # check out list before
 node = head
