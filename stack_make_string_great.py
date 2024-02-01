@@ -16,8 +16,6 @@ guaranteed to be unique under the given constraints.
 
 Notice that an empty string is also good.
 
- 
-
 Example 1:
 Input: s = "leEeetcode"
 Output: "leetcode"
