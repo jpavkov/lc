@@ -56,12 +56,11 @@ class Solution:
         
         m = len(board)      # rows
         n = len(board[0])   # cols
-        queue = deque([1]) # cell number in linearBoard
+        queue = deque([(1, 0)]) # cell number in linearBoard, level of graph
         seen = {(1)}
-        count = 0
-
         leftToRight = True
 
+        # create array to represent game board
         linearBoard = [None] * ((m * n) + 1)
         cells = 1
         for r in range(m - 1, -1, -1):
@@ -75,9 +74,13 @@ class Solution:
                     cells += 1
             leftToRight = not leftToRight
 
+        # traverse board starting at square 1
         while queue:
-            count += 1
-            square = queue.popleft()
+            # count += 1
+            square, level = queue.popleft()
+            level += 1
+
+            # numbers 1 to 6 simulates dice role for 6 options
             for i in range(1, 7):
                 if linearBoard[square + i] == -1:
                     nextMove = square + i
@@ -85,17 +88,19 @@ class Solution:
                     nextMove = linearBoard[square + i]
                 if nextMove not in seen:
                     seen.add(nextMove)
-                    queue.append(nextMove)
-
-                if m * n in seen:
-                    return count
+                    queue.append([nextMove, level])
                 
-                # for q in queue:
-                #     print(q)
+                # if last square has been seen, return level of traversed graph
+                if m * n in seen:
+                    return level
                 
         return -1
 
 board = [[-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1],[-1,35,-1,-1,13,-1],[-1,-1,-1,-1,-1,-1],[-1,15,-1,-1,-1,-1]]
+sol = Solution()
+print(sol.snakesAndLadders(board))
+
+board = [[-1,-1],[-1,3]]
 sol = Solution()
 print(sol.snakesAndLadders(board))
 
