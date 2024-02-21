@@ -38,36 +38,22 @@ from collections import defaultdict, deque
 class Solution:
     def canReach(self, arr: list[int], start: int) -> bool:
         
-        graph = defaultdict(list)
         queue = deque([start])
         seen = set()
 
-        # build graph
         while queue:
-            #branches = queue.popleft()
-            #parent = branches[0]
-            #children = branches[1]
             node = queue.popleft()
             distance = arr[node]
+            if distance == 0:
+                return True
             if node not in seen:
                 seen.add(node)
                 if node + distance < len(arr):
-                    graph[node].append(node + distance)
                     queue.append(node + distance)
                 if node - distance >= 0:
-                    graph[node].append(node - distance)
                     queue.append(node - distance)
 
-        for k, v in graph.items():
-            print(f"{k} - {v}")
-
-        for i in enumerate(seen):
-            print(i)
-        #return True if 0 in seen else False
-
-
-
-
+        return False
 
 sol = Solution()
 
