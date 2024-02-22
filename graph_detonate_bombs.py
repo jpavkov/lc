@@ -51,7 +51,6 @@ Constraints:
 """
 
 from collections import defaultdict, deque
-import itertools
 import math
 
 class Solution:
@@ -59,8 +58,6 @@ class Solution:
         
         graph = defaultdict(list)
         detonations = 1
-        seen = set()
-        q = deque()
 
         def getDistance(bombX, bombY) -> float:
             aSquared = (bombX[0] - bombY[0]) ** 2
@@ -70,40 +67,48 @@ class Solution:
             else:
                 c = 0
             return c
-            
+
         # build graph
-        for x, y in itertools.combinations(bombs, 2):
-            distance = getDistance(x, y)
-            # print(f"{x} - {y} - {distance}")
-            if x[2] >= distance:
-                graph[bombs.index(x)].append(bombs.index(y))
-            if y[2] >= distance:
-                graph[bombs.index(y)].append(bombs.index(x))
+        for i, x in enumerate(bombs):
+            for j, y in enumerate(bombs[i + 1:], start = i + 1):
+                distance = getDistance(x, y)
+                if x[2] >= distance:
+                    graph[i].append(j)
+                if y[2] >= distance:
+                    graph[j].append(i)
 
         # trace graph for each bomb and return the max number of detonations
         if len(graph) == 0:
             return 1
-        
-        key = next(iter(graph))
-        q.append(key)
-        while q:
-            
 
+        # traverse graph from each key
+        for k in graph.keys():
+            seen = set([k])
+            q = deque([k])
+            while q:
+                node = q.popleft()
+                if node not in seen:
+                    seen.add(node)
+                values = graph.get(node)
+                if values:
+                    for v in values:
+                        if v not in seen:
+                            seen.add(v)
+                            q.append(v)
 
-
-            
+            detonations = max(detonations, len(seen))
 
         return detonations
 
-
-
-
 sol = Solution()
 bombs = [[2,1,3],[6,1,4]]
-sol.maximumDetonation(bombs)
+print(sol.maximumDetonation(bombs))
 
 bombs = [[1,1,5],[10,10,5]]
-sol.maximumDetonation(bombs)
+print(sol.maximumDetonation(bombs))
 
 bombs = [[1,2,3],[2,3,1],[3,4,2],[4,5,3],[5,6,4]]
-sol.maximumDetonation(bombs)
+print(sol.maximumDetonation(bombs))
+
+bombs = [[4,4,3],[4,4,3]]
+print(sol.maximumDetonation(bombs))
