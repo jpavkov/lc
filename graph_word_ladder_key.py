@@ -49,45 +49,54 @@ Constraints:
 
 from collections import defaultdict, deque
 
-class Solution:
+class Solution(object):
     def ladderLength(self, beginWord: str, endWord: str, wordList: list[str]) -> int:
-        
-        # length of word used
-        L = len(beginWord)
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: int
+        """
 
-        # test if beginWord in wordList, if not add
-        if beginWord not in wordList:
-            wordList.append(beginWord)
-
-        # test if endWord in wordList, if not return 0, if so return index
-        if endWord in wordList:
-            end_index = wordList.index(endWord)
-        else:
+        if endWord not in wordList or not endWord or not beginWord or not wordList:
             return 0
 
-        # create graph of intermediate states
-        graph = defaultdict(list)
+        # Since all words are of same length.
+        L = len(beginWord)
+
+        # Dictionary to hold combination of words that can be formed,
+        # from any given word. By changing one letter at a time.
+        all_combo_dict = defaultdict(list)
         for word in wordList:
             for i in range(L):
-                graph[word[:i] + "*" + word[i+1:]].append(word)
+                # Key is the generic word
+                # Value is a list of words which have the same intermediate generic word.
+                print(f"{word} - {i} - {word[:i] + "*" + word[i+1:]}")
+                all_combo_dict[word[:i] + "*" + word[i+1:]].append(word)
 
-        # bfs of graph
-        q = deque([(beginWord, 1)])
-        seen = set()
-        seen.add(beginWord)
-        while q:
-            cur_word, level = q.popleft()
+
+        # Queue for BFS
+        queue = deque([(beginWord, 1)])
+        # Visited to make sure we don't repeat processing same word.
+        visited = {beginWord: True}
+        while queue:
+            current_word, level = queue.popleft()
             for i in range(L):
-                intermediate_word = cur_word[:i] + "*" + cur_word[i+1:]
-                for word in graph[intermediate_word]:
+                # Intermediate words for current word
+                intermediate_word = current_word[:i] + "*" + current_word[i+1:]
+
+                # Next states are all the words which share the same intermediate state.
+                for word in all_combo_dict[intermediate_word]:
+                    # If at any point if we find what we are looking for
+                    # i.e. the end word - we can return with the answer.
                     if word == endWord:
                         return level + 1
-                    if word not in seen:
-                        seen.add(word)
-                        q.append((word, level + 1))
-
+                    # Otherwise, add it to the BFS Queue. Also mark it visited
+                    if word not in visited:
+                        visited[word] = True
+                        queue.append((word, level + 1))
+                #all_combo_dict[intermediate_word] = []
         return 0
-
 
 sol = Solution()
 
@@ -96,7 +105,7 @@ endWord = "cog"
 wordList = ["hot","dot","dog","lot","log","cog"]
 print(sol.ladderLength(beginWord, endWord, wordList))
 
-beginWord = "hit"
-endWord = "cog"
-wordList = ["hot","dot","dog","lot","log"]
-print(sol.ladderLength(beginWord, endWord, wordList))
+# beginWord = "hit"
+# endWord = "cog"
+# wordList = ["hot","dot","dog","lot","log"]
+# print(sol.ladderLength(beginWord, endWord, wordList))
