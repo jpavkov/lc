@@ -36,55 +36,58 @@ Constraints:
 n == nums.length
 m == queries.length
 1 <= n, m <= 1000
-1 <= nums[i], queries[i] <= 106
+1 <= nums[i], queries[i] <= 10^6
 """
+import heapq
 
 class Solution:
     def answerQueries(self, nums: list[int], queries: list[int]) -> list[int]:
-        
+
         n = len(nums)
-        nums_min_sum = [-1] * (n + 1)
+        nums_min_sum = [0] * (n + 1)
         m = len(queries)
         ans = [-1] * m
 
-        for cont_range in range(0, n):
-            left = 0
-            right = cont_range + 1
-            min_value = 107
+        heapq.heapify(nums)
 
-            while right <= n:
-                min_value = min(min_value, sum(nums[left:right]))
-                left += 1
-                right += 1
-            nums_min_sum[cont_range + 1] = min_value
+        for i in range(1, n + 1):
+            nums_min_sum[i] = nums_min_sum[i - 1] + heapq.heappop(nums)
 
         print(nums_min_sum)
 
-        for i in range(1, m):
+        for index, val in enumerate(queries):
             left = 1
-            right = m
-            target = queries[i]
+            right = n
 
-            if target < nums_min_sum[left]:
-                ans[i] = 0
-            elif target >= nums_min_sum[right]:
-                ans[i] = right
+            if val < nums_min_sum[left]:
+                ans[index] = 0
+            elif val >= nums_min_sum[right]:
+                ans[index] = right
             else:
                 while right - left > 1:
                     midline = left + ((right - left) // 2)
-                    if midline >= target:
+                    if nums_min_sum[midline] >= val:
                         right = midline
                     else:
                         left = midline
-                if 
-            
+
+                if val == nums_min_sum[right]:
+                    ans[index] = right
+                else:
+                    ans[index] = left
+
+        return ans
 
 sol = Solution()
 
 nums = [4,5,2,1]
 queries = [3,10,21]
-sol.answerQueries(nums, queries)
+print(sol.answerQueries(nums, queries))
 
 nums = [2,3,4,5]
 queries = [1]
-sol.answerQueries(nums, queries)
+print(sol.answerQueries(nums, queries))
+
+nums = [736411,184882,914641,37925,214915]
+queries = [331244,273144,118983,118252,305688,718089,665450]
+print(sol.answerQueries(nums, queries))
