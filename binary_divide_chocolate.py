@@ -34,21 +34,40 @@ Constraints:
 
 class Solution:
     def maximizeSweetness(self, sweetness: list[int], k: int) -> int:
-        pass
 
+        people = k + 1
+        left = min(sweetness)
+        right = sum(sweetness) // people
 
+        while left < right:
+            mid = (left + right + 1) // 2
+            cur_sweetness = 0
+            people_with_chocolate = 0
+
+            for s in sweetness:
+                cur_sweetness += s
+                if cur_sweetness >= mid:
+                    people_with_chocolate += 1
+                    cur_sweetness = 0
+
+            if people_with_chocolate >= k + 1:
+                left = mid
+            else:
+                right = mid - 1
+
+        return right
 
 sol = Solution()
 
 
 sweetness = [1,2,3,4,5,6,7,8,9]
 k = 5
-sol.maximizeSweetness(sweetness, k) # output: 6
+print(sol.maximizeSweetness(sweetness, k)) # output: 6
 
 sweetness = [5,6,7,8,9,1,2,3,4]
 k = 8
-sol.maximizeSweetness(sweetness, k) # output: 1
+print(sol.maximizeSweetness(sweetness, k)) # output: 1
 
 sweetness = [1,2,2,1,2,2,1,2,2]
 k = 2
-sol.maximizeSweetness(sweetness, k) # output: 5
+print(sol.maximizeSweetness(sweetness, k)) # output: 5
