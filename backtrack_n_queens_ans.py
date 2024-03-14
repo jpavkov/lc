@@ -20,6 +20,7 @@ Constraints: 1 <= n <= 9
 
 class Solution:
     def totalNQueens(self, n):
+
         def backtrack(row, diagonals, anti_diagonals, cols):
             if row == n:
                 return 1
