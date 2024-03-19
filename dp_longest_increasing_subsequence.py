@@ -35,7 +35,11 @@ class Solution:
             if i == 0:
                 memo[nums[i]] = 1
                 return
-            
+            else:
+                v = max([(value) for key, value in memo.items() if 1 <= key < i])
+                if v:
+                    
+
             memo[i] = 
             
 

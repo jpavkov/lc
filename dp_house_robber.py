@@ -32,11 +32,10 @@ class Solution:
 
         def dp(i):
             if i == 0:
-                memo[i] = nums[i]
-                return memo[i]
-            
+                return nums[i]
+
             if i == 1:
-                memo[i] = max(nums[i], nums[i - 1])
+                return max(nums[i], nums[i - 1])
 
             if i in memo:
                 return memo[i]
