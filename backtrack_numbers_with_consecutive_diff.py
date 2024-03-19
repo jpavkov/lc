@@ -23,3 +23,35 @@ Constraints:
 
 class Solution:
     def numsSameConsecDiff(self, n: int, k: int) -> list[int]:
+
+        def backtrack(curr_str):
+            if len(curr_str) == n:
+                ans.append(int(''.join(map(str, curr_str))))
+                return
+            
+            last_int = int(curr_str[-1])
+            if last_int + k <= 9:
+                curr_str.append(last_int + k)
+                backtrack(curr_str)
+                curr_str.pop()
+            if last_int - k >= 0 and k > 0:
+                curr_str.append(last_int - k)
+                backtrack(curr_str)
+                curr_str.pop()
+
+        ans = []
+        for i in range(1, 10):
+            backtrack([i])
+        return ans
+
+sol = Solution()
+
+# example 1, output: [181,292,707,818,929]
+n = 3
+k = 7
+print(sol.numsSameConsecDiff(n, k))
+
+# example 2, output: [10,12,21,23,32,34,43,45,54,56,65,67,76,78,87,89,98]
+n = 2
+k = 1
+print(sol.numsSameConsecDiff(n, k))
