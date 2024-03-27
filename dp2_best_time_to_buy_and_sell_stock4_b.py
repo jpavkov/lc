@@ -31,26 +31,30 @@ class Solution:
 
     def maxProfit(self, k: int, prices: list[int]) -> int:
 
-        def dp(day, holding, remaining, depth):
+        def dp(day, holding, remaining, curr_val):
             global call_count
             call_count += 1
-            print(f"call count: {call_count}, day: {day}, holding: {holding}, remaining: {remaining}, depth: {depth}")
+            print(f"call count: {call_count}, day: {day}, holding: {holding}, remaining: {remaining}, curr val: {curr_val}")
 
             if day == len(prices) or remaining == 0:
                 return 0
 
             # do nothing
-            ans = dp(day + 1, holding, remaining, depth + 1)
+            ans = dp(day + 1, holding, remaining, curr_val)
+            # print(ans)
 
             # transaction
             if holding:
                 # sell
-                ans = max(ans, prices[day] + dp(day + 1, False, remaining - 1, depth + 1))
+                ans = max(ans, prices[day] + dp(day + 1, False, remaining - 1, prices[day] - ans))
+                # print(ans)
             else:
                 # buy
-                ans = max(ans, -prices[day] + dp(day + 1, True, remaining, depth + 1))
+                ans = max(ans, -prices[day] + dp(day + 1, True, remaining, ans - prices[day]))
+                # print(ans)
 
             # return the ans
+            print(ans)
             return ans
 
         # calls = 0
@@ -62,8 +66,12 @@ sol = Solution()
 call_count = 0
 
 k = 2
-prices = [2,4,1]
+prices = [2,4,1,2]
 print(sol.maxProfit(k, prices))
+
+# k = 2
+# prices = [2,4,1]
+# print(sol.maxProfit(k, prices))
 
 # k = 2
 # prices = [3,2,6,5,0,3]
