@@ -22,15 +22,22 @@ Constraints:
 class Solution:
     def moveZeroes(self, nums: list[int]) -> None:
 
-        left = 0
-        zero = 0
+        if len(nums) == 1:
+            return
 
-        while left < len(nums):
-            while left == 0:
-                zero += 1
+        zeros = 0
+
+        for i, num in enumerate(nums):
+            if num == 0:
+                zeros += 1
+            elif zeros != 0:
+                nums[i - zeros] = num
+
+        if zeros > 0:
+            nums[-zeros:] = [0] * zeros
 
 
-sol = Solution
+sol = Solution()
 
 nums = [0, 1, 0, 3, 12]
 print(nums)

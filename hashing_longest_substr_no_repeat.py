@@ -27,30 +27,28 @@ already in set, reset temp value and assign ans to max(ans, temp value)
 """
 
 
-def lengthOfLongestSubstring(s: str) -> int:
-    dic_char = {}
-    local_ans = 0
-    ans = 0
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        dic = {}
+        ans = 0
+        left = -1
 
-    for i, char in enumerate(s):
-        if char in dic_char:
-            # print(dic_char["w"])
-            local_ans = i - dic_char[char]
-        else:
-            ans += 1
-        dic_char[char] = i
-        # print("i:", i)
-        # print("ans:", ans)
-        # print("char:", char)
-        # print("dic_char[char]:", dic_char[char])
+        for i, char in enumerate(s):
+            if char in dic:
+                left = max(left, dic[char])
+            ans = max(ans, i - left)
+            dic[char] = i
 
-    return ans
+        return ans
 
 
-# print(lengthOfLongestSubstring("abcdefg"))  # 7
-# print(lengthOfLongestSubstring("abcabcd"))  # 4
-# print(lengthOfLongestSubstring("aaaaaaa"))  # 1
-# print(lengthOfLongestSubstring(""))  # 0
-# print(lengthOfLongestSubstring(" %"))  # 2
-# print(lengthOfLongestSubstring("dvdf"))  # 3
-print(lengthOfLongestSubstring("pwwkew"))  # 3
+sol = Solution()
+print(sol.lengthOfLongestSubstring("abcdefg"))  # 7
+print(sol.lengthOfLongestSubstring("abcabcd"))  # 4
+print(sol.lengthOfLongestSubstring("aaaaaaa"))  # 1
+print(sol.lengthOfLongestSubstring(""))  # 0
+print(sol.lengthOfLongestSubstring(" %"))  # 2
+print(sol.lengthOfLongestSubstring("dvdf"))  # 3
+print(sol.lengthOfLongestSubstring("pwwkew"))  # 3
+print(sol.lengthOfLongestSubstring("p"))  # 1
+print(sol.lengthOfLongestSubstring("abba"))  # 2
