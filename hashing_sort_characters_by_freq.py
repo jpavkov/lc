@@ -37,18 +37,22 @@ class Solution:
     def frequencySort(self, s: str) -> str:
 
         dic = {}
-
+        fre = []
         ans = ""
 
         for char in s:
             dic[char] = dic.get(char, 0) + 1
 
-        while dic:
-            maxNum = max(value for value in dic.values())
+        for v in dic.values():
+            if v not in fre:
+                fre.append(v)
+
+        fre.sort(reverse=True)
+
+        for num in fre:
             for k, v in dic.items():
-                if v == maxNum:
-                    ans = ans + ''.join([k] * v)
-                    dic.pop(k)
+                if v == (num):
+                    ans = ans + "".join([k] * v)
 
         return ans
 
@@ -65,4 +69,7 @@ print(sol.frequencySort(s))
 
 # ex 3: Output: "bbAa"
 s = "Aabb"
+print(sol.frequencySort(s))
+
+s = "abaccadeeefaafcc"
 print(sol.frequencySort(s))
