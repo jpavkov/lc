@@ -82,7 +82,7 @@ class Solution:
         rightStop.next = curr
 
         return head
-    
+
     # recursive approach
     # def reverseBetween(self, head: ListNode, m: int, n: int) -> ListNode:
 
@@ -111,14 +111,14 @@ class Solution:
 sol = Solution()
 ll = LinkedList()
 
-# # ex 1: output: 1, 4, 3, 2, 5
-# nodes = [1, 2, 3, 4, 5]
-# head = ll.createList(nodes)
-# ll.printList(head)  # print list
-# left = 2
-# right = 4
-# head = sol.reverseBetween(head, left, right)
-# ll.printList(head)
+# ex 1: output: 1, 4, 3, 2, 5
+nodes = [1, 2, 3, 4, 5]
+head = ll.createList(nodes)
+ll.printList(head)  # print list
+left = 2
+right = 4
+head = sol.reverseBetween(head, left, right)
+ll.printList(head)
 
 # # ex 2: output: 5
 # nodes = [5]

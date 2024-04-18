@@ -52,8 +52,6 @@ class LinkedList:
 
 class Solution:
     def swapNodes(self, head: ListNode, k: int) -> ListNode:
-        if head.next is None:
-            return head
 
         curr = head
         i = 0
@@ -62,10 +60,23 @@ class Solution:
             curr = curr.next
             i += 1
 
-        if (i / 2) + 1 == k:
+        first = min(0 + k, i - k + 1)
+        second = max(0 + k, i - k + 1)
+
+        if first == second:
             return head
 
-        print(i)
+        curr = head
+        for j in range(1, second + 1):
+            if j == first:
+                firstNode = curr
+            elif j == second:
+                secondNode = curr
+            curr = curr.next
+
+        firstNode.val, secondNode.val = secondNode.val, firstNode.val
+
+        return head
 
 
 # create instances of Solution and linkedList
@@ -78,3 +89,4 @@ head = ll.createList(nodes)
 k = 2
 ll.printList(head)
 sol.swapNodes(head, k)
+ll.printList(head)
