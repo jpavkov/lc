@@ -37,22 +37,30 @@ Constraints:
 s contains only lower and upper case English letters.
 """
 
-def makeGood(s: str) -> str:
-    stack = []
+class Solution:
+    def makeGood(self, s: str) -> str:
+        stack = []
 
-    for c in list(s):
-        if stack and abs(ord(c) - ord(stack[-1])) == 32:
-            stack.pop() # takes out top of stack, and doesn't act on c
-        else:
-            stack.append(c)
+        for c in list(s):
+            if stack and abs(ord(c) - ord(stack[-1])) == 32:
+                stack.pop() ## takes top of stack, and doesn't act on c
+            else:
+                stack.append(c)
     
-    return "".join(stack)
+        return "".join(stack)
     
 
 ## testing:
+sol = Solution()
+
+# ex 1
 s = "abBAcC"
-print(makeGood(s))
+print(sol.makeGood(s))
+
+# ex 2
 s = "leEeetcode"
-print(makeGood(s))
+print(sol.makeGood(s))
+
+# ex 3
 s = "s"
-print(makeGood(s))
+print(sol.makeGood(s))
