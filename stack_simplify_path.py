@@ -55,10 +55,17 @@ class Solution:
         stack = []
 
         folder_names = path.split("/")
-        print(path)
-        print(folder_names)        
 
-        return "".join(stack)
+        for folder in folder_names:
+            if folder in ('', '.'):
+                pass
+            elif folder == "..":
+                if len(stack) > 0:
+                    stack.pop()
+            else:
+                stack.append(folder)
+
+        return "/" + "/".join(stack)
     
 
 sol = Solution()
