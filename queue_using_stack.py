@@ -43,47 +43,22 @@ class MyQueue:
     def __init__(self):
         self.stackA = []
         self.stackB = []
-        self.useA = True
 
     def push(self, x: int) -> None:
-        if self.useA:
-            self.stackA.append(x)
-        else:
-            self.stackB.append(x)
+        while len(self.stackB) > 0:
+            self.stackA.append(self.stackB.pop())
+        self.stackB.append(x)
+        while len(self.stackA) > 0:
+            self.stackB.append(self.stackA.pop())
 
     def pop(self) -> int:
-        if self.useA:
-            while len(self.stackA) > 1:
-                self.stackB.append(self.stackA.pop())
-            self.useA = False
-            return self.stackA.pop()
-        else:
-            while len(self.stackB) > 1:
-                self.stackA.append(self.stackB.pop())
-            self.useA = True
-            return self.stackB.pop()
+        return self.stackB.pop()
 
     def peek(self) -> int:
-        if self.useA:
-            while len(self.stackA) > 1:
-                self.stackB.append(self.stackA.pop())
-            self.useA = False
-            ans = self.stackA.pop()
-            self.stackB.append(ans)
-            return ans
-        else:
-            while len(self.stackB) > 1:
-                self.stackA.append(self.stackB.pop())
-            self.useA = True
-            ans = self.stackB.pop()
-            self.stackA.append(ans)
-            return ans
+        return self.stackB[-1]
 
     def empty(self) -> bool:
-        if len(self.stackA) == 0 and len(self.stackB) == 0:
-            return True
-        else:
-            return False
+        return True if len(self.stackB) == 0 else False
 
 
 # Your MyQueue object will be instantiated and called as such:
