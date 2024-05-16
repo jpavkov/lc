@@ -38,7 +38,22 @@ s consists of only English lowercase letters.
 
 class Solution:
     def robotWithString(self, s: str) -> str:
-        pass
+        
+        stack = []
+        ans = ""
+        
+        for c in s:
+            if len(stack) == 0:
+                stack.append(c)
+            else:
+                while len(stack) > 0 and ord(stack[-1]) < ord(c):
+                    ans = ans + stack.pop()
+                stack.append(c)
+        
+        while len(stack) > 0:
+            ans = ans + stack.pop()
+
+        return ans
 
 sol = Solution()
 
