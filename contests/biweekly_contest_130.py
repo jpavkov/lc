@@ -24,12 +24,29 @@ class Solution:
         return ans
 
     def maxPointsInsideSquare(self, points: list[list[int]], s: str) -> int:
-        max = 1000000001
+        limit = 1000000001
         dic = {}
 
-        for index, char in s:
-            num = max(abs(points[index][0], points[index][1]))
-            dic[char] = max(num, dic.get(char, -1))
+        for index, char in enumerate(s):
+            num = max(abs(points[index][0]), abs(points[index][1]))
+            cur = dic.get(char, -1)
+            if cur == -1:
+                dic[char] = num
+            else:
+                dic[char] = min(num, cur)
+                limit = min(limit, max(num, cur) - 1)
+        
+        for k, v in dic.items():
+            print(k, v)
+        
+        print(f"limit {limit}")
+
+        ans = 0
+        for value in dic.values():
+            if value <= limit:
+                ans += 1
+        
+        return ans
         
 
 
@@ -38,15 +55,25 @@ class Solution:
 sol = Solution()
 
 # problem 1
-grid = [[1,0,2],[1,0,2]]
-print(sol.satisfiesConditions(grid))
-grid = [[1,1,1],[0,0,0]]
-print(sol.satisfiesConditions(grid))
-grid = [[1],[2],[3]]
-print(sol.satisfiesConditions(grid))
+# grid = [[1,0,2],[1,0,2]]
+# print(sol.satisfiesConditions(grid))
+# grid = [[1,1,1],[0,0,0]]
+# print(sol.satisfiesConditions(grid))
+# grid = [[1],[2],[3]]
+# print(sol.satisfiesConditions(grid))
 
 # problem 2
+points = [[2,2],[-1,-2],[-4,4],[-3,1],[3,-3]]
+s = "abdca"
+print(sol.maxPointsInsideSquare(points, s))
 
+points = [[1,1],[-2,-2],[-2,2]]
+s = "abb"
+print(sol.maxPointsInsideSquare(points, s))
+
+points = [[1,1],[-1,-1],[2,-2]]
+s = "ccd"
+print(sol.maxPointsInsideSquare(points, s))
 
 # problem 3
 
