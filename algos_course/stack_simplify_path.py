@@ -34,35 +34,58 @@ Input: path = "/home//foo/"
 Output: "/home/foo"
 Explanation: In the canonical path, multiple consecutive slashes are replaced by a single one.
 
+Example 4:
+Input: path = "/home/user/Documents/../Pictures"
+Output: "/home/user/Pictures"
+Explanation: A double period ".." refers to the directory up a level.
+
+Example 5:
+Input: path = "/.../a/../b/c/../d/./"
+Output: "/.../b/d"
+Explanation: "..." is a valid name for a directory in this problem.
+
 Constraints:
 1 <= path.length <= 3000
 path consists of English letters, digits, period '.', slash '/' or '_'.
 path is a valid absolute Unix path.
 """
 
-def simplifyPath(path: str) -> str:
-    stack = []
-    for c in path:
-        if len(stack) == 0:
-            stack.append(c)
+class Solution:
+    def simplifyPath(self, path: str) -> str:
+        stack = []
 
-        if c not in (".", "/"):
-            stack.append(c)
+        folder_names = path.split("/")
 
-        if c == "/" and stack[-1] != "/":
-            stack.append(c)
-     
-    if stack[-1] == "/" and len(stack) > 1:
-        stack.pop()
+        for folder in folder_names:
+            if folder in ('', '.'):
+                pass
+            elif folder == "..":
+                if len(stack) > 0:
+                    stack.pop()
+            else:
+                stack.append(folder)
 
-    return "".join(stack)
+        return "/" + "/".join(stack)
     
+
+sol = Solution()
+
+# ex 1
 path = "/home/"
-print(path, simplifyPath(path))
+print(sol.simplifyPath(path))
 
+# ex 2
 path = "/../"
-print(path, simplifyPath(path))
+print(sol.simplifyPath(path))
 
+# ex 3
 path = "/home//foo/"
-print(path, simplifyPath(path))
+print(sol.simplifyPath(path))
 
+# ex 4
+path = "/home/user/Documents/../Pictures"
+print(sol.simplifyPath(path))
+
+# ex 5
+path = "/.../a/../b/c/../d/./"
+print(sol.simplifyPath(path))
