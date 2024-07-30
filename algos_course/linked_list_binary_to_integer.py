@@ -1,0 +1,91 @@
+"""
+Given head which is a reference node to a singly-linked list. 
+The value of each node in the linked list is either 0 or 1. 
+The linked list holds the binary representation of a number.
+
+Return the decimal value of the number in the linked list.
+
+The most significant bit is at the head of the linked list.
+
+Example 1:
+Input: head = [1,0,1]
+Output: 5
+Explanation: (101) in base 2 = (5) in base 10
+
+Example 2:
+Input: head = [0]
+Output: 0
+
+Constraints:
+    The Linked List is not empty.
+    Number of nodes will not exceed 30.
+    Each node's value is either 0 or 1.
+"""
+
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class LinkedList:
+
+    def __init__(self, head=ListNode):
+        self.head = head
+
+    def createList(self, inputList: list) -> ListNode:
+        for i, num in enumerate(inputList):
+            if i == 0:
+                head = ListNode(num)
+                node = head
+            else:
+                node.next = ListNode(num)
+                node = node.next
+        return head
+
+    def printList(self, head: ListNode):
+        node = head
+        output = ""
+        while node:
+            output += " " + str(node.val)
+            node = node.next
+
+        print(f"list:{output}")
+
+
+class Solution:
+    def getDecimalValue(self, head: ListNode) -> int:
+
+        strAns = ""
+        curr = head
+
+        while curr:
+            print(curr.val)
+            strAns += "".join(str(curr.val))
+            curr = curr.next
+
+        return int(strAns, 2)
+
+        # check this out below!!
+        # count=0
+        # while head:
+        #     count=(2*count)+head.val
+        #     head=head.next
+        # return count
+
+
+sol = Solution()
+ll = LinkedList()
+
+# ex 1:
+head = [1, 0, 1]
+head = ll.createList(head)
+ans = sol.getDecimalValue(head)
+print(ans)
+
+# ex 2:
+head = [0]
+head = ll.createList(head)
+ans = sol.getDecimalValue(head)
+print(ans)
